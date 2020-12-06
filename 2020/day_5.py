@@ -793,6 +793,20 @@ def generate_seat_ids(passes):
 def get_highest_id(passes):
     return max(generate_seat_ids(passes))
 
+def get_my_seat_linear(passes):
+    total = 0
+    min_seat_id = float('inf')
+    max_seat_id = float('-inf')
+
+    for id_ in generate_seat_ids(passes):
+        min_seat_id = min(min_seat_id, id_)
+        max_seat_id = max(max_seat_id, id_)
+        total += id_
+
+    total_of_all_seats = ((min_seat_id + max_seat_id) / 2) * (max_seat_id - min_seat_id + 1)
+
+    return int(total_of_all_seats) - total
+
 def get_my_seat(passes):
     seat_ids = [id_ for id_ in generate_seat_ids(passes)]
     seat_ids = sorted(seat_ids)
@@ -806,6 +820,7 @@ if __name__ == '__main__':
 
     print('get_highest_id', get_highest_id(passes))
     print('get_my_seat', get_my_seat(passes))
+    print('get_my_seat_linear', get_my_seat_linear(passes))
 
     # row, col, id
     assert get_seat("FBFBBFFRLR") == (44, 5, 357), f"got {get_seat('FBFBBFFRLR')}"
