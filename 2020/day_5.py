@@ -756,6 +756,7 @@ BFFBFFFLRR
 BFFBBBFRLL
 BFFBFFFRLL
 '''.strip().split('\n')
+
 def gen_id(row, col):
     return row * 8 + col
 

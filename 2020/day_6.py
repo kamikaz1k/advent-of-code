@@ -2318,7 +2318,7 @@ def get_counts2(vals):
     return total
 
 if __name__ == '__main__':
-
+    assert get_counts(test2_vals) == 11, get_counts(test2_vals)
     assert get_counts(vals) == 6714, get_counts(vals)
 
     assert get_counts2(test2_vals) == 6, get_counts2(test2_vals)
