@@ -2019,6 +2019,10 @@ def get_input(string):
     return [int(i) for i in string.strip().split()]
 
 
+def run(problem, arg):
+    print(problem.__name__, 'result:', problem(arg))
+
+
 def problem_one(series):
     previous = float('inf')
     num_increasing = 0
@@ -2048,10 +2052,6 @@ def problem_two(series):
         previous_sum = new_sum
 
     return num_increasing
-
-
-def run(problem, arg):
-    print(problem.__name__, 'result:', problem(arg))
 
 
 if __name__ == '__main__':
