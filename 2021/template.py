@@ -5,6 +5,11 @@ q2 = '''
 '''
 
 
+def log(*args):
+    # return
+    print(args)
+
+
 def get_input(string):
     return [
         i
