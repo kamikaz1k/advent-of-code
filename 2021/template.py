@@ -4,6 +4,8 @@ q1 = '''
 q2 = '''
 '''
 
+from collections import defaultdict, deque, Counter
+
 
 def log(*args):
     # return
