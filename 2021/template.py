@@ -12,6 +12,10 @@ def log(*args):
     print(*args)
 
 
+def boldify(val):
+    return '\033[1m' + f"{val}" + '\033[0m'
+
+
 def get_input(string):
     return [
         i
