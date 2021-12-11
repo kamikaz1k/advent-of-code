@@ -9,7 +9,7 @@ from collections import defaultdict, deque, Counter
 
 def log(*args):
     # return
-    print(args)
+    print(*args)
 
 
 def get_input(string):
