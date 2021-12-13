@@ -1020,9 +1020,8 @@ def get_input(string):
     folds = []
     for fold in lines[slice_idx:]:
         axis, value = fold.replace("fold along ", "").split("=")
-        # folds[axis] = value
         folds.append((axis, int(value)))
-    import pdb; pdb.set_trace()
+
     return dots, folds
 
 
@@ -1056,35 +1055,38 @@ class Paper:
             ])
         )
 
-    # def create_mirror_maker(mirrow_row=None, mirror_col=None):
-    #     if mirrow_row:
-    #         return lambda row, col: True
+    def create_mirror_maker(mirrow_row=None, mirror_col=None):
+        if mirrow_row:
+            return lambda row, col: (2 * mirrow_row) - row
 
     def fold(self, x=None, y=None):
         width = len(self._vals[0])
         height = len(self._vals)
 
+        if not (x or y):
+            raise ValueError("derped!")
+
         if x is not None:
-            for col in range(x + 1, width):
-                for row in range(height):
-                    mirror_col = 2 * x - col
-                    self._vals[row][mirror_col] = self._vals[row][mirror_col] or self._vals[row][col]
+            get_mirror_coordinates = lambda row, col: (row, (2 * x) - col)
+            trimming_dimension = "col"
 
-            self._vals = [
-                row[:x]
-                for row in self._vals
-            ]
-            log('trimmed columns', self)
+        else:
+            get_mirror_coordinates = lambda row, col: ((2 * y) - row, col)
+            trimming_dimension = "row"
 
-        if y is not None:
-            for col in range(width):
-                for row in range(y + 1, height):
-                    mirrow_row = 2 * y - row
-                    log(mirrow_row)
-                    self._vals[mirrow_row][col] = self._vals[mirrow_row][col] or self._vals[row][col]
+        for col in range((x or -1) + 1, width):
+            for row in range((y or -1), height):
+                mirror_row, mirror_col = get_mirror_coordinates(row, col)
 
-            self._vals = self._vals[:y]
-            log('trimmed rows', self)
+                existing_value = self._vals[mirror_row][mirror_col]
+                if not existing_value:
+                    self._vals[mirror_row][mirror_col] = self._vals[row][col]
+
+        self._vals = [
+            row[:x]
+            for row in self._vals[:y]
+        ]
+        log(f'trimmed {trimming_dimension}s', self)
 
     @property
     def dots(self):
